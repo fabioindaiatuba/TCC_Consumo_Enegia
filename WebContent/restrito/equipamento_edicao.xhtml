@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<h:form id="edicao" styleClass="form-cad">
+		<h:messages/>
+		<h:inputHidden value="#{equipamentoBean.editado.equipamento}" />
+		<h:panelGrid columns="4">
+			<h:outputLabel value="Id." for="id"/>
+			<h:outputLabel value="Descrição" for="descricao"/>
+			<h:outputLabel value="Potência Máx.(W)" for="potencia"/>
+			<h:outputLabel value="Tensão(V)" for="tensao"/>
+			
+			<p:inputText id="id" value="#{equipamentoBean.editado.id}" 
+						required="true" size="30"/>
+			
+			<p:inputText id="descricao" value="#{equipamentoBean.editado.descricao}" 
+						required="true" size="30"/>
+						
+			<p:inputText id="potencia" value="#{equipamentoBean.editado.potencia_max}" size="10">
+				<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+			</p:inputText>
+			<p:inputText id="tensao" value="#{equipamentoBean.editado.tensao}" size="10">
+				<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+			</p:inputText>
+		</h:panelGrid>
+		<p:commandButton value="Novo" action="#{equipamentoBean.novo}" process="@this" update=":edicao"/>
+		<p:commandButton value="Salvar" action="#{equipamentoBean.salvar}" update=":edicao, :listagem"/>
+	</h:form>
+</ui:composition>
+</html>

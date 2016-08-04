@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition template="/templates/interna.xhtml">
+	<ui:define name="titulo">
+		Cadatro de Usuários
+	</ui:define>
+	<ui:define name="corpo">
+	<h:form id="cadastro">
+		<h:messages/>
+		<h:inputHidden value="#{usuarioBean.usuario.codigo}"/>
+		<h:inputHidden value="#{usuarioBean.usuario.ativo}"/>
+		<h:inputHidden value="#{usuarioBean.destinoSalvar}"/>
+		<h:inputHidden value="#{usuarioBean.senhaCriptografada}"/>
+		
+		<h:panelGrid columns="2" styleClass="form-cad">
+			<h:outputLabel value="Nome:" for="nome"/>
+			<h:inputText id="nome" label="Nome" value="#{usuarioBean.usuario.nome}" size="30" 
+						maxlength="30" required="true" requiredMessage="Você não tem nome?">
+				<f:validateLength minimum="10" maximum="30"/>
+			</h:inputText>
+			
+			<h:outputLabel value="e-Mail:" for="email"/>
+			<h:panelGroup>
+				<h:inputText id="email" 
+					label="e-Mail" 
+					value="#{usuarioBean.usuario.email}" 
+					size="50" maxlength="50" required="true" 
+					validatorMessage="e-Mail inválido">
+					<f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+"/>
+				</h:inputText>
+				<h:message for="email"/> 
+			</h:panelGroup>
+			
+							
+			<h:outputLabel value="Login:" for="login"/>
+			<h:inputText id="login" 
+			   		     label="Login" 
+			   	 	     value="#{usuarioBean.usuario.login}" 
+			   	     	 size="15" maxlength="15" required="true"
+			  	         validatorMessage="Login deve ter no mínimo 5 e no máximo 15 caracters e só pode ter os simbolos '.' e '_'.">
+				<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,15}"/>
+			</h:inputText>
+				  
+			
+			<h:outputLabel value="Senha:" for="senha"/>
+			<h:panelGroup>
+				<h:inputSecret id="senha" label="Senha" value="#{usuarioBean.usuario.senha}" size="20" 
+							maxlength="10" required="#{empty request.remoteUser}" redisplay="false"/>
+				<p:watermark for="senha" value="Preencher se quiser alterar." />
+			</h:panelGroup>
+			<h:outputLabel value="Confirmar Senha:" for="confirmarsenha"/>
+			<h:panelGroup>
+				<h:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}" size="20" 
+						maxlength="10" required="#{empty request.remoteUser}" redisplay="false"/>
+				<p:watermark for="confirmarsenha" value="Preencher se quiser alterar." />
+			</h:panelGroup>
+		</h:panelGrid>				
+		<h:commandButton action="#{usuarioBean.salvar}" value="Salvar"/>
+	</h:form>
+	</ui:define>
+</ui:composition>
+</html>

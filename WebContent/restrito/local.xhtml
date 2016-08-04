@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Locais
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form id="edicao" styleClass="form-cad">
+			<!-- (1) -->
+			<h:messages />
+			<h:inputHidden value="#{localBean.selecionado.local}" />
+			<h:inputHidden value="#{localBean.selecionado.favorito}" />
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Descrição: " for="descricao" />
+				<p:inputText id="descricao"
+					value="#{localBean.selecionado.descricao}" required="true"
+					maxlength="45" />
+				<p:outputLabel value="Valor Kwh: " for="valor"/>
+				<p:inputText id="valor" value="#{localBean.selecionado.valorKWh}" size="10">
+					<f:convertNumber minFractionDigits="6" maxFractionDigits="6"/>
+				</p:inputText>
+				
+				<h:outputText/>
+				<h:panelGroup>	
+					<p:commandButton value="Salvar" action="#{localBean.salvar}" update=":edicao, :listagem"/>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:form>
+		
+		<h:form id="listagem">
+			<p:dataTable scrollRows="10"  
+                 		scrollable="true" 
+                 		scrollHeight="100"
+                 		value="#{localBean.lista}" var="local"
+						rendered="#{!empty localBean.lista}">
+				
+				<p:column style="width:100px" headerText="Descrição">
+					<h:outputText value="#{local.descricao}"/> 
+				</p:column>
+				<p:column style="width:40px" headerText="Valor Kwh">
+					<h:outputText style="color:'green';text-align:right; display:block;" 
+								value="#{local.valorKWh}">
+						<f:convertNumber minFractionDigits="6" maxFractionDigits="6"/>
+					</h:outputText>
+				</p:column>
+				<p:column style="width:25px">
+					<p:commandLink action="#{localBean.tornarFavorito}" update=":listagem">
+						<h:graphicImage library="imagens" name="favorita16_#{local.favorito}.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{localBean.selecionado}" value="#{local}"/>
+					</p:commandLink>
+				</p:column>
+				<p:column style="width:25px">
+					<p:commandLink action="#{localBean.editar}" update=":edicao">
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{localBean.selecionado}" value="#{local}"/>
+					</p:commandLink>
+				</p:column>
+				<p:column style="width:25px">
+					<p:commandLink action="#{localBean.excluir}" update=":listagem"
+							onclick="if (!confirm('Confirma a exclusão do local #{local.descricao}?')) return false;">
+						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{localBean.selecionado}" value="#{local}"/>
+				</p:commandLink>
+			</p:column>
+			</p:dataTable>
+		</h:form>
+		
+		
+	</ui:define>
+</ui:composition>
+</html>

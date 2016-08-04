@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="/templates/interna.xhtml">
+	<ui:define name="corpo">	
+		<h:form style="text-align: center;">
+			<h:panelGrid columns="1">
+				<c:forEach items="#{viewLeituraBean.leituras}"  var="item">
+					<h:panelGrid  columns="2" styleClass="form-cad">
+						<p:meterGaugeChart value="#{item.meterAtual}" 
+         					showTickLabels="true" 
+         					labelHeightAdjust="70"
+         					intervalOuterRadius="80"
+         					seriesColors="32CD32, FFD700, FF0000"
+         					style="width:300px;height:180px" 
+         					title="#{item.descricao}" label="#{item.potencia} W."/>
+         					
+         				<p:lineChart value="#{item.graficoAtual}" seriesColors="32CD32" 
+								     title="#{item.descricao}/Dia" minY="0" maxY="#{item.potencia_max + (3-(item.potencia_max % 3))}" style="width:300px;height:200px"/> 
+         			</h:panelGrid>
+         		</c:forEach>
+         	</h:panelGrid>
+         	<p:poll interval="1" update="@form"/>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

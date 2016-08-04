@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+			http://www.springframework.org/schema/security 
+			http://www.springframework.org/schema/security/spring-security-3.1.xsd" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:b="http://www.springframework.org/schema/beans" 
+		xmlns="http://www.springframework.org/schema/security">
+	<http>
+		
+		<intercept-url access="ROLE_ADMINISTRADOR" pattern="/admin/**"/>
+		<intercept-url access="ROLE_USUARIO" pattern="/restrito/**"/>
+		<form-login authentication-failure-url="/publico/login.jsf?login_error=1" 
+				default-target-url="/restrito/principal.jsf" 
+				always-use-default-target="true" 
+				login-page="/publico/login.jsf"/>
+		<logout/>
+		<remember-me/>
+    	<access-denied-handler error-page="/restrito/principal.jsf"/>
+		
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder hash="md5"/>
+			<jdbc-user-service users-by-username-query="SELECT login, senha, ativo FROM usuario WHERE login = ?" 
+					authorities-by-username-query="SELECT u.login, p.permissao FROM usuario u, usuario_permissao p WHERE u.codigo = p.usuario AND u.login = ?" 
+					data-source-ref="financeiroDataSource"/>
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>

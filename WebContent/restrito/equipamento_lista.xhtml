@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<h:form id="listagem">
+		<p:dataTable scrollRows="10"  
+               		scrollable="true" 
+               		scrollHeight="100"
+               		value="#{equipamentoBean.lista}" var="equipamento"
+					rendered="#{!empty equipamentoBean.lista}">
+				
+			<p:column style="width:50px" headerText="Id.">
+				<h:outputText value="#{equipamento.id}"/> 
+			</p:column>
+			<p:column style="width:100px" headerText="Descrição">
+				<h:outputText value="#{equipamento.descricao}"/> 
+			</p:column>
+			<p:column style="width:40px" headerText="Pot. Máx(W)">
+				<h:outputText style="text-align:right; display:block;" 
+							value="#{equipamento.potencia_max}">
+					<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+				</h:outputText>
+			</p:column>
+			<p:column style="width:40px" headerText="Tensão(V)">
+				<h:outputText style="text-align:right; display:block;" 
+							value="#{equipamento.tensao}">
+					<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+				</h:outputText>
+			</p:column>
+			<p:column style="width:25px">
+				<p:commandLink action="#{equipamentoBean.editar}" update=":edicao">
+					<h:graphicImage library="imagens" name="editar16.png" style="border:0"/>
+					<f:setPropertyActionListener target="#{equipamentoBean.editado}" value="#{equipamento}"/>
+				</p:commandLink>
+			</p:column>
+			<p:column style="width:25px">
+				<p:commandLink action="#{equipamentoBean.excluir}" update=":listagem"
+						onclick="if (!confirm('Confirma a exclusão do equipamento #{equipamento.descricao}?')) return false;">
+					<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+					<f:setPropertyActionListener target="#{equipamentoBean.editado}" value="#{equipamento}"/>
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</ui:composition>
+</html>

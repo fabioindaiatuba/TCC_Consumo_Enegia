@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+	Sistema de Monitoramento de Consumo de Energia. <br/>
+	Desenvolvido como parte integrante do trabalho de Conclusão de Curso de Ciência da Computação - CEUNSP <br/>
+	<h:form id="logado" rendered="#{!empty contextoBean.usuarioLogado.nome}">
+			<h3>
+			Usuário: <I>#{contextoBean.usuarioLogado.nome}
+			</I></h3>
+	</h:form>
+</ui:composition>
+</html>

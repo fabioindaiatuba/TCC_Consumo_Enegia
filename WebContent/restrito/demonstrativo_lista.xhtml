@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<h:form id="listagem">
+		<p:dataTable scrollRows="10"  
+               		scrollable="true" 
+               		scrollHeight="100"
+               		value="#{viewTotalLeituraBean.leituras}" var="leitura"
+					rendered="#{!empty viewTotalLeituraBean.leituras}">
+				
+			<p:column style="width:30px" headerText="Mes">
+				<p:commandLink action="#{viewTotalLeituraBean.listar}" update=":listagem_det">
+					<h:outputText value="#{leitura.data}" style="text-align:center; display:block;"/> 
+					<f:setPropertyActionListener target="#{viewTotalLeituraBean.editado}" value="#{leitura}"/>
+				</p:commandLink>
+			</p:column>
+			<p:column style="width:30px" headerText="Tempo de Uso">
+				<h:outputText value="#{leitura.tempo}" style="text-align:center; display:block;"/> 
+			</p:column>
+			<p:column style="width:40px" headerText="Consumo (Kwh)">
+				<h:outputText style="text-align:right; display:block;" 
+							value="#{leitura.consumo}">
+					<f:convertNumber minFractionDigits="2" maxFractionDigits="6"/>
+				</h:outputText>
+			</p:column>
+			<p:column style="width:40px" headerText="Valor">
+				<h:outputText style="text-align:right; display:block;" 
+							value="#{leitura.valor}">
+					<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+				</h:outputText>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</ui:composition>
+</html>

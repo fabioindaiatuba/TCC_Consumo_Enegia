@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<ui:composition>
+	<sec:ifAnyGranted roles="ROLE_USUARIO">
+		<h:form id="menu">
+			<table width="100%" style="cellpadding:3">
+				<tr><td>
+					<h:commandButton value="Locais" action="/restrito/local"/>		
+					<h:selectOneMenu value="#{contextoBean.localAtivo.local}"
+							valueChangeListener="#{contextoBean.setLocalAtivo}" 
+							rendered="#{!empty contextoBean}"
+							onchange="submit()">
+						<f:selectItems 	value="#{localBean.lista}" 
+								var="local"
+								itemValue="#{local.local}"
+								itemLabel="#{local.descricao}"/>
+					</h:selectOneMenu>
+					<h:commandButton value="Equipamentos" action="/restrito/equipamento"/>
+					<h:commandButton value="Demonstrativos" action="/restrito/demonstrativo"/>
+				</td>
+				<td align="left">
+					<h:commandLink action="/restrito/principal" title="Principal">
+						<h:graphicImage library="imagens" name="principal16.png" style="border:0" />
+					</h:commandLink>
+					<sec:ifAnyGranted roles="ROLE_ADMINISTRADOR">
+						<h:commandLink action="/admin/principal" title="Administrativo">
+							<h:graphicImage library="imagens" name="administrativo16.png" style="border:0" />
+						</h:commandLink>
+					</sec:ifAnyGranted>
+					<h:outputLink value="javascript:void(0)" onclick="document.location='#{request.contextPath}/j_spring_security_logout'" title="Sair">
+						<h:graphicImage library="imagens" name="logout16.png" style="border:0"/>
+					</h:outputLink>
+				</td></tr>
+			</table>
+		</h:form>
+	</sec:ifAnyGranted>
+</ui:composition>
+</html>

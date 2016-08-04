@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/interna.xhtml">
+	<ui:define name="titulo">Demonstrativos</ui:define>
+	
+	<ui:define name="corpo">
+		<h:form styleClass="form-cad">
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputText value="Equipamento: "/>
+				<p:selectOneMenu value="#{viewTotalLeituraBean.equipamento.equipamento}" 
+								valueChangeListener="#{viewTotalLeituraBean.setEquipamento}"
+								rendered="#{!empty equipamentoBean.lista}">  
+            		
+            		<f:selectItems value="#{equipamentoBean.lista}" 
+								var="equipamento"
+								itemValue="#{equipamento.equipamento}"
+								itemLabel="#{equipamento.descricao}" />  
+					<p:ajax update="@this :listagem :listagem_det"/>
+        		</p:selectOneMenu>
+			</h:panelGrid>
+		</h:form>
+		<br/>
+		<ui:include src="demonstrativo_lista.xhtml"/>
+		<br/>
+		<ui:include src="demonstrativo_lista_det.xhtml"/>
+	</ui:define>
+</ui:composition>
+</html>
